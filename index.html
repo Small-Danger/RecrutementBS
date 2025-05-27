@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BS International - Recrutement Agent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        .slide-up {
+            animation: slideUp 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .profile-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(135deg, #3B82F6, #2563EB) border-box;
+        }
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.1);
+        }
+        .logo-container {
+            width: 180px;
+            height: 180px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 2px solid rgba(255,255,255,0.1);
+            padding: 20px;
+        }
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+        }
+        .floating-bubble {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            color: white;
+            padding: 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            z-index: 1000;
+            animation: float 3s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+        .floating-bubble:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .floating-bubble .icon {
+            background: rgba(255,255,255,0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(37, 99, 235, 0.8));
+            backdrop-filter: blur(8px);
+        }
+        .footer-gradient {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+        }
+        .social-icon {
+            background: rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        .social-icon:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);
+            border: 2px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(135deg, #3B82F6, #2563EB) border-box;
+        }
+        .form-input {
+            background: #F8FAFC;
+            border: 2px solid #E2E8F0;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            background: white;
+        }
+        .form-label {
+            color: #1E293B;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .submit-button {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+        .submit-button:active {
+            transform: translateY(0);
+        }
+        .form-section {
+            position: relative;
+        }
+        .form-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            border-radius: 4px 4px 0 0;
+        }
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        .hero-subtitle {
+            font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+            line-height: 1.4;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .submit-button.loading {
+            opacity: 0.8;
+            cursor: not-allowed;
+        }
+        .submit-button.loading .button-text {
+            display: none;
+        }
+        .submit-button.loading .loading-spinner {
+            display: inline-block;
+        }
+        /* Animation de validation */
+        .validation-success {
+            animation: fadeZoomIn 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            background: #f0fdf4;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(34,197,94,0.10);
+            border: 2px solid #22c55e22;
+        }
+        @keyframes fadeZoomIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            60% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .checkmark {
+            width: 60px;
+            height: 60px;
+            display: block;
+            margin: 0 auto 18px auto;
+        }
+        .checkmark-circle {
+            stroke: #22c55e;
+            stroke-width: 4;
+            fill: none;
+            animation: circleAppear 0.5s ease;
+        }
+        @keyframes circleAppear {
+            from { stroke-dasharray: 0 188; }
+            to { stroke-dasharray: 188 0; }
+        }
+        .checkmark-check {
+            stroke: #22c55e;
+            stroke-width: 4;
+            fill: none;
+            stroke-dasharray: 36;
+            stroke-dashoffset: 36;
+            animation: checkAppear 0.4s 0.4s forwards;
+        }
+        @keyframes checkAppear {
+            to { stroke-dashoffset: 0; }
+        }
+        .whatsapp-pulse {
+            animation: pulse 1.2s infinite;
+            box-shadow: 0 0 0 0 #25D36655;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 #25D36655; }
+            70% { box-shadow: 0 0 0 12px #25D36611; }
+            100% { box-shadow: 0 0 0 0 #25D36600; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-slate-50 to-slate-100 text-slate-800">
+    <!-- Header Immersif -->
+    <header class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="relative z-10 max-w-4xl mx-auto h-screen flex items-center justify-center text-center px-4">
+            <div class="fade-in">
+                <div class="logo-container mb-8 slide-up">
+                    <img src="BS INTERNATIONAL_Plan de travail 1.png" alt="BS International Logo">
+                </div>
+                <h1 class="hero-title font-bold mb-6 slide-up text-white">BS INTERNATIONAL</h1>
+                <p class="hero-subtitle mb-8 slide-up text-slate-200" style="animation-delay: 0.3s;">Nous recrutons un agent permanent pour accompagner notre croissance à Ouagadougou.</p>
+                <a href="#profil" class="bg-white text-slate-800 px-8 py-3 rounded-full font-bold text-lg hover:bg-slate-100 transition duration-300 inline-block slide-up" style="animation-delay: 0.6s;">Découvre le profil recherché</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section Qui sommes-nous -->
+    <section id="qui-sommes-nous" class="py-20 px-4 max-w-6xl mx-auto">
+        <div class="text-center mb-16 fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-800">Qui sommes-nous ?</h2>
+            <div class="w-24 h-1 bg-slate-300 mx-auto"></div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-12 items-center fade-in">
+            <div>
+                <p class="text-lg mb-6 text-slate-700">BS INTERNATIONAL est une entreprise fondée par deux jeunes burkinabè récemment implantée sur le marché.</p>
+                <p class="text-lg mb-8 text-slate-700">Elle comprend 3 filiales :</p>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                        <div class="bg-slate-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-graduation-cap text-slate-700"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl mb-2 text-slate-800">SCHOLAR</h3>
+                            <p class="text-slate-600">Accompagnement des étudiants burkinabè vers le Maroc.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                        <div class="bg-slate-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-briefcase text-slate-700"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl mb-2 text-slate-800">BUSINESS</h3>
+                            <p class="text-slate-600">Support des entrepreneurs et porteurs de projet.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                        <div class="bg-slate-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-shipping-fast text-slate-700"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl mb-2 text-slate-800">EXPRESS</h3>
+                            <p class="text-slate-600">Import/export entre le Maroc, le Burkina et d'autres destinations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white p-8 rounded-lg shadow-lg slide-up">
+                <h3 class="text-2xl font-bold mb-4 text-slate-800">Localisation</h3>
+                <p class="mb-6 text-slate-600"><i class="fas fa-map-marker-alt mr-2 text-slate-400"></i> Avenue Lamine Gueye, Ouagadougou</p>
+                <div class="aspect-w-16 aspect-h-9 bg-slate-100 rounded-lg overflow-hidden">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3880.123456789012!2d-1.123456789012345!3d12.345678901234567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDIwJzQ0LjQiTiAxwrAwNyczNi4xIlc!5e0!3m2!1sfr!2sbf!4v1234567890123!5m2!1sfr!2sbf" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Profil recherché -->
+    <section id="profil" class="py-20 px-4 bg-slate-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-800">Profil recherché</h2>
+                <div class="w-24 h-1 bg-slate-300 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 fade-in">
+                <!-- Compétence 1 -->
+                <div class="profile-card bg-white p-6 rounded-lg shadow-sm slide-up" style="animation-delay: 0.1s;">
+                    <div class="bg-gradient-to-br from-slate-100 to-slate-200 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-calendar-alt text-xl text-slate-700"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">Disponibilité</h3>
+                    <p class="text-slate-600">Être disponible du lundi au samedi</p>
+                </div>
+                
+                <!-- Compétence 2 -->
+                <div class="profile-card bg-white p-6 rounded-lg shadow-sm slide-up" style="animation-delay: 0.2s;">
+                    <div class="bg-gradient-to-br from-slate-100 to-slate-200 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-motorcycle text-xl text-slate-700"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">Moyen de déplacement</h3>
+                    <p class="text-slate-600">Avoir un moyen de déplacement</p>
+                </div>
+                
+                <!-- Compétence 3 -->
+                <div class="profile-card bg-white p-6 rounded-lg shadow-sm slide-up" style="animation-delay: 0.3s;">
+                    <div class="bg-gradient-to-br from-slate-100 to-slate-200 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-mobile-alt text-xl text-slate-700"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">Équipement</h3>
+                    <p class="text-slate-600">Posséder un bon téléphone</p>
+                </div>
+                
+                <!-- Compétence 4 -->
+                <div class="profile-card bg-white p-6 rounded-lg shadow-sm slide-up" style="animation-delay: 0.4s;">
+                    <div class="bg-gradient-to-br from-slate-100 to-slate-200 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-paint-brush text-xl text-slate-700"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">Design graphique</h3>
+                    <p class="text-slate-600">Maîtriser le design graphique et la création de contenu</p>
+                </div>
+                
+                <!-- Compétence 5 -->
+                <div class="profile-card bg-white p-6 rounded-lg shadow-sm slide-up" style="animation-delay: 0.5s;">
+                    <div class="bg-gradient-to-br from-slate-100 to-slate-200 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-line text-xl text-slate-700"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">Gestion d'entreprise</h3>
+                    <p class="text-slate-600">Compétences en gestion (gérer le local en l'absence des fondateurs)</p>
+                </div>
+                
+                <!-- Compétence 6 -->
+                <div class="profile-card bg-white p-6 rounded-lg shadow-sm slide-up" style="animation-delay: 0.6s;">
+                    <div class="bg-gradient-to-br from-slate-100 to-slate-200 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-language text-xl text-slate-700"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">Langues</h3>
+                    <p class="text-slate-600">Parler parfaitement le français et le mooré</p>
+                </div>
+                
+                <!-- Compétence 7 -->
+                <div class="profile-card bg-white p-6 rounded-lg shadow-sm slide-up" style="animation-delay: 0.7s;">
+                    <div class="bg-gradient-to-br from-slate-100 to-slate-200 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-hashtag text-xl text-slate-700"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">Réseaux sociaux</h3>
+                    <p class="text-slate-600">Être actif sur les réseaux sociaux et savoir les utiliser stratégiquement</p>
+                </div>
+                
+                <!-- Compétence 8 -->
+                <div class="profile-card bg-white p-6 rounded-lg shadow-sm slide-up" style="animation-delay: 0.8s;">
+                    <div class="bg-gradient-to-br from-slate-100 to-slate-200 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-handshake text-xl text-slate-700"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">Esprit commercial</h3>
+                    <p class="text-slate-600">Avoir un esprit commercial, savoir convaincre</p>
+                </div>
+                
+                <!-- Compétence 9 -->
+                <div class="profile-card bg-white p-6 rounded-lg shadow-sm slide-up" style="animation-delay: 0.9s;">
+                    <div class="bg-gradient-to-br from-slate-100 to-slate-200 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-lightbulb text-xl text-slate-700"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">Créativité</h3>
+                    <p class="text-slate-600">Être créatif, motivé et prêt à promouvoir l'entreprise</p>
+                </div>
+                
+                <!-- Compétence 10 -->
+                <div class="profile-card bg-white p-6 rounded-lg shadow-sm slide-up col-span-full md:col-span-1 lg:col-span-3" style="animation-delay: 1s;">
+                    <div class="bg-gradient-to-br from-slate-100 to-slate-200 w-12 h-12 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-home text-xl text-slate-700"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-center text-slate-800">Disponibilité géographique</h3>
+                    <p class="text-center text-slate-600">Être disponible à temps plein et résider à Ouagadougou</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Pourquoi nous rejoindre -->
+    <section id="pourquoi" class="py-20 px-4 max-w-6xl mx-auto">
+        <div class="text-center mb-16 fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-800">Pourquoi nous rejoindre ?</h2>
+            <div class="w-24 h-1 bg-slate-300 mx-auto"></div>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8 fade-in">
+            <div class="profile-card bg-white p-8 rounded-lg text-center shadow-sm slide-up" style="animation-delay: 0.2s;">
+                <div class="bg-gradient-to-br from-slate-100 to-slate-200 w-20 h-20 rounded-full flex items-center justify-center mb-6 mx-auto">
+                    <i class="fas fa-users text-3xl text-slate-700"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-slate-800">Équipe jeune et dynamique</h3>
+                <p class="text-slate-600">Rejoignez une équipe motivée et passionnée par ce qu'elle fait.</p>
+            </div>
+            
+            <div class="profile-card bg-white p-8 rounded-lg text-center shadow-sm slide-up" style="animation-delay: 0.4s;">
+                <div class="bg-gradient-to-br from-slate-100 to-slate-200 w-20 h-20 rounded-full flex items-center justify-center mb-6 mx-auto">
+                    <i class="fas fa-chart-pie text-3xl text-slate-700"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-slate-800">Entreprise en croissance</h3>
+                <p class="text-slate-600">Participez au développement d'une entreprise prometteuse avec de belles perspectives.</p>
+            </div>
+            
+            <div class="profile-card bg-white p-8 rounded-lg text-center shadow-sm slide-up" style="animation-delay: 0.6s;">
+                <div class="bg-gradient-to-br from-slate-100 to-slate-200 w-20 h-20 rounded-full flex items-center justify-center mb-6 mx-auto">
+                    <i class="fas fa-heart text-3xl text-slate-700"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-slate-800">Cadre motivant</h3>
+                <p class="text-slate-600">Évoluez dans un environnement stimulant et polyvalent qui favorise l'épanouissement.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulaire de candidature -->
+    <section id="postuler" class="py-20 px-4 bg-slate-50">
+        <div class="max-w-2xl mx-auto">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-800">Tu corresponds au profil ?</h2>
+                <p class="text-xl text-slate-600">Entre tes informations pour être recontacté et passer un entretien en visio.</p>
+            </div>
+            
+            <form id="candidatureForm" class="form-container p-8 md:p-10 fade-in">
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="slide-up" style="animation-delay: 0.2s;">
+                        <label for="prenom" class="form-label block">Prénom *</label>
+                        <input type="text" id="prenom" name="prenom" required 
+                               class="form-input w-full px-4 py-3 rounded-lg focus:outline-none">
+                    </div>
+                    <div class="slide-up" style="animation-delay: 0.3s;">
+                        <label for="nom" class="form-label block">Nom *</label>
+                        <input type="text" id="nom" name="nom" required 
+                               class="form-input w-full px-4 py-3 rounded-lg focus:outline-none">
+                    </div>
+                </div>
+                
+                <div class="mb-6 slide-up" style="animation-delay: 0.4s;">
+                    <label for="email" class="form-label block">Email *</label>
+                    <input type="email" id="email" name="email" required 
+                           class="form-input w-full px-4 py-3 rounded-lg focus:outline-none">
+                </div>
+                
+                <div class="mb-8 slide-up" style="animation-delay: 0.5s;">
+                    <label for="telephone" class="form-label block">Téléphone *</label>
+                    <input type="tel" id="telephone" name="telephone" required 
+                           class="form-input w-full px-4 py-3 rounded-lg focus:outline-none">
+                </div>
+                
+                <button type="submit" 
+                        class="submit-button w-full text-white font-bold py-4 px-6 rounded-lg transition duration-300 slide-up" 
+                        style="animation-delay: 0.6s;">
+                    <span class="loading-spinner"></span>
+                    <span class="button-text">Postuler maintenant</span>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 footer-gradient">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="fade-in">
+                    <h3 class="text-xl font-bold mb-4 text-white">Contact</h3>
+                    <p class="text-slate-100 mb-2"><i class="fas fa-map-marker-alt mr-2 text-slate-200"></i> Avenue Lamine Gueye, Ouagadougou</p>
+                    <p class="text-slate-100 mb-2"><i class="fas fa-phone mr-2 text-slate-200"></i> Maroc: +212 603402577</p>
+                    <p class="text-slate-100"><i class="fas fa-phone mr-2 text-slate-200"></i> Burkina: +226 63126849</p>
+                </div>
+                
+                <div class="fade-in">
+                    <h3 class="text-xl font-bold mb-4 text-white">Mentions légales</h3>
+                    <p class="text-slate-100">© 2024 BS International. Tous droits réservés.</p>
+                </div>
+                
+                <div class="fade-in">
+                    <h3 class="text-xl font-bold mb-4 text-white">Nous suivre</h3>
+                    <div class="flex space-x-4">
+                        <a href="https://www.facebook.com/profile.php?id=61576007463610" target="_blank" class="social-icon w-10 h-10 rounded-full flex items-center justify-center text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/bsinternational003/profilecard/?igsh=ejViNG16aGRjeTk2" target="_blank" class="social-icon w-10 h-10 rounded-full flex items-center justify-center text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@bsinternational003?_t=ZM-8wi8u4zYq3x&_r=1" target="_blank" class="social-icon w-10 h-10 rounded-full flex items-center justify-center text-white">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bulle flottante -->
+    <a href="#postuler" class="floating-bubble">
+        <div class="icon">
+            <i class="fas fa-paper-plane"></i>
+        </div>
+        <div class="text">
+            <span class="font-bold">Postule maintenant !</span>
+            <p class="text-sm opacity-90">Rejoins notre équipe</p>
+        </div>
+    </a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialisation de EmailJS
+            emailjs.init("Rouzvcc4p8iq2lclo");
+
+            const fadeElements = document.querySelectorAll('.fade-in, .slide-up');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            fadeElements.forEach(el => {
+                el.style.opacity = 0;
+                if (el.classList.contains('slide-up')) {
+                    el.style.transform = 'translateY(20px)';
+                }
+                observer.observe(el);
+            });
+            
+            const form = document.getElementById('candidatureForm');
+            const submitButton = form.querySelector('.submit-button');
+            
+            // Fonction de validation
+            function validateForm() {
+                const prenom = document.getElementById('prenom').value.trim();
+                const nom = document.getElementById('nom').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const telephone = document.getElementById('telephone').value.trim();
+
+                if (!prenom || !nom || !email || !telephone) {
+                    alert('Veuillez remplir tous les champs obligatoires.');
+                    return false;
+                }
+
+                // Validation email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Veuillez entrer une adresse email valide.');
+                    return false;
+                }
+
+                // Maroc : +212XXXXXXXXX ou 0XXXXXXXXX (9 chiffres après)
+                // Burkina : +226XXXXXXXX ou 0XXXXXXXX (8 chiffres après)
+                const marocRegex = /^(\+212|0)[5-7][0-9]{8}$/;
+                const bfRegex = /^(\+226|0)[0-9]{8}$/;
+                // Tolérance : accepte aussi les numéros burkinabè à 8 chiffres seuls
+                const bfSimpleRegex = /^[0-9]{8}$/;
+                if (!marocRegex.test(telephone) && !bfRegex.test(telephone) && !bfSimpleRegex.test(telephone)) {
+                    alert('Veuillez entrer un numéro marocain (+212 ou 0...) ou burkinabè (+226, 0... ou 8 chiffres) valide.');
+                    return false;
+                }
+
+                return true;
+            }
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                if (!validateForm()) {
+                    return;
+                }
+
+                // Désactiver le bouton et afficher le spinner
+                submitButton.classList.add('loading');
+                submitButton.disabled = true;
+                
+                // Récupération des valeurs du formulaire
+                const prenom = document.getElementById('prenom').value.trim();
+                const nom = document.getElementById('nom').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const telephone = document.getElementById('telephone').value.trim();
+
+                // Configuration des paramètres pour EmailJS
+                const templateParams = {
+                    title: "Candidature",
+                    name: `${prenom} ${nom}`,
+                    time: new Date().toLocaleString('fr-FR'),
+                    message: `Nouvelle candidature reçue de ${prenom} ${nom}\nEmail : ${email}\nTéléphone : ${telephone}`,
+                    email: email
+                };
+
+                try {
+                    // Envoi de l'email
+                    const response = await emailjs.send('service_ikir7tg', 'template_rz4hwyn', templateParams);
+                    console.log('SUCCESS!', response.status, response.text);
+                    
+                    // Afficher un message personnalisé avec lien WhatsApp
+                    const whatsappNumber = '212603402577'; // Numéro Maroc sans +
+                    const whatsappLink = `https://wa.me/${whatsappNumber}?text=Bonjour%2C%20je%20viens%20de%20postuler%20via%20le%20site%20et%20je%20souhaite%20envoyer%20mon%20CV.`;
+                    const message = document.createElement('div');
+                    message.innerHTML = `
+                        <div class="validation-success" style="text-align:center;padding:32px 16px;">
+                            <svg class="checkmark" viewBox="0 0 60 60">
+                                <circle class="checkmark-circle" cx="30" cy="30" r="28"/>
+                                <polyline class="checkmark-check" points="18,32 28,42 44,22"/>
+                            </svg>
+                            <h2 style="font-size:1.5rem;font-weight:bold;color:#22c55e;">Merci ${prenom} ${nom} !</h2>
+                            <p style="margin:16px 0;color:#334155;">Votre candidature a bien été envoyée.<br>Pour finaliser, merci d'envoyer votre CV sur WhatsApp en cliquant ci-dessous :</p>
+                            <a href="${whatsappLink}" target="_blank" class="whatsapp-pulse" style="display:inline-block;background:#25D366;color:white;font-weight:bold;padding:12px 24px;border-radius:8px;text-decoration:none;font-size:1.1rem;margin-top:12px;transition:box-shadow 0.3s;">
+                                <i class='fab fa-whatsapp' style='margin-right:8px;'></i>Envoyer mon CV sur WhatsApp
+                            </a>
+                        </div>
+                    `;
+                    // Remplacer le formulaire par le message
+                    form.parentNode.replaceChild(message, form);
+                } catch (error) {
+                    console.error('Erreur EmailJS:', error);
+                    // Vérification du type d'erreur
+                    if (error.text === 'Bad Request') {
+                        alert('Veuillez vérifier que tous les champs sont correctement remplis.');
+                    } else {
+                        alert('Une erreur est survenue lors de l\'envoi. Veuillez réessayer dans quelques instants.');
+                    }
+                } finally {
+                    // Réactiver le bouton et cacher le spinner
+                    submitButton.classList.remove('loading');
+                    submitButton.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
